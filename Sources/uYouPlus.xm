@@ -301,7 +301,7 @@ static __strong NSData *cellDividerData;
 - (BOOL)enableModularPlayerBarController { return NO; } // fixes some of the iSponorBlock problems
 - (BOOL)mainAppCoreClientEnableCairoSettings { return IS_ENABLED(@"newSettingsUI_enabled"); } // New grouped settings UI
 - (BOOL)enableIosFloatingMiniplayer { return IS_ENABLED(@"floatingMiniplayer_enabled"); } // Floating Miniplayer
-- (BOOL)enableIosFloatingMiniplayerSwipeUpToExpand { return IS_ENABLED(@"floatingMiniplayer_enabled"); } // Floating Miniplayer
+- (BOOL)enableIosFloatingMiniplayerSwipeUpToExpand { return IS_ENABLED(@"floatingMiniplayer_enabled"); } // Floating Miniplayer - Fix Swipe Up Animation
 - (BOOL)enableIosFloatingMiniplayerRepositioning { return IS_ENABLED(@"floatingMiniplayer2_enabled"); } // Floating Miniplayer (Repositioning Support, Removes Swiping Up Gesture)
 %end
 
@@ -578,7 +578,7 @@ static __strong NSData *cellDividerData;
 }
 %end
 
-// Classic Video Player (Restores the v16.xx.x Video Player Functionality) - @arichornlover
+// Classic Video Player - 17.33.2+ (Restores the functionality from the YT v16.xx.x Video Player) - @arichornlover
 // To-do: disabling "Precise Video Scrubbing" https://9to5google.com/2022/06/29/youtube-precise-video-scrubbing/
 %group gClassicVideoPlayer
 %hook YTColdConfig
@@ -1533,7 +1533,7 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
 // Remove “Play next in queue” from the menu (@PoomSmart) - qnblackcat/uYouPlus#1138
 %hook YTMenuItemVisibilityHandler
 - (BOOL)shouldShowServiceItemRenderer:(YTIMenuConditionalServiceItemRenderer *)renderer {
-    return IS_ENABLED(@"hidePlayNextInQueue_enabled") && renderer.icon.iconType == 251 ? NO : %orig;
+    return IS_ENABLED(@"hidePlayNextInQueue_enabled") && renderer.icon.iconType == 251 && renderer.secondaryIcon.iconType == 741 ? NO : %orig;
 }
 %end
 

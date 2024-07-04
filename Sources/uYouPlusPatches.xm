@@ -151,8 +151,12 @@ static BOOL showNativeShareSheet(NSString *serializedShareEntity) {
 /*
 %hook YTShareRequestViewController
 - (id)initWithService:(id)_service parentResponder:(id)_parentResponder {
-    // disable the default share sheet behavior and force the app to call [YTAccountScopedCommandRouter handleCommand]
-    return NULL;
+    id result = %orig;
+    // disable the default share sheet behavior and force the app to call [YTAccountScopedCommandRouter handleCommand] if available
+    if ([_parentResponder respondsToSelector:@selector(handleCommand:entry:fromView:sender:completionBlock:)]) {
+        [_parentResponder handleCommand:nil entry:nil fromView:nil sender:nil completionBlock:nil];
+    }
+    return result;
 }
 %end
 */
